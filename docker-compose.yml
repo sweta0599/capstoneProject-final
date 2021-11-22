@@ -1,0 +1,28 @@
+version: '3'
+services:
+  database:
+    image: mysql
+    container_name: mysql-db
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: Qwerty1234@
+      MYSQL_DATABASE: capstoneprojectdb
+    ports:
+      - "3366:3306"
+      
+      
+  registrationservice:
+    image: employee-registration
+    container_name: registration-app
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8082:8080"
+    restart: always
+    depends_on:
+      - database
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql-db:3306/capstoneprojectdb
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: Qwerty1234@    
